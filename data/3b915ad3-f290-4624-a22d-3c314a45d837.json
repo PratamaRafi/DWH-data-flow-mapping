@@ -1,0 +1,4007 @@
+{
+  "id": "3b915ad3-f290-4624-a22d-3c314a45d837",
+  "name": "Mapping AIM Facility v.2.7.xlsx",
+  "uploadDate": "2026-09-01T20:55:24.580Z",
+  "version": 1,
+  "uploadedBy": "anonymous",
+  "destinationTable": "IM_LIMIT",
+  "dataSources": [
+    {
+      "no": 1,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_GETM_FACILITY",
+      "type": "DB",
+      "alias": "gfac",
+      "joinType": "-",
+      "joinCondition": "STG_UBS_GETM_FACILITY",
+      "remarks": ""
+    },
+    {
+      "no": 2,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_GETM_LIAB",
+      "type": "DB",
+      "alias": "liab",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_GETM_LIAB",
+      "remarks": ""
+    },
+    {
+      "no": 3,
+      "schema": "LPE_EDW_STG",
+      "tableName": "STG_UBS_STTM_CUSTOMER\nSTG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+      "type": "DB",
+      "alias": "scus",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(SELECT C.*, E.FIELD_VAL_2, E.FIELD_VAL_17\r\n    FROM STG_UBS_STTM_CUSTOMER C\r\n    LEFT JOIN STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS E\r\n        ON E.REC_KEY = C.CUSTOMER_NO + '~'\r\n       AND E.FUNCTION_ID = 'STDCIF'\r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 4,
+      "schema": "LPE_EDW_STG",
+      "tableName": "STG_UBS_STTM_CUST_GROUP",
+      "type": "DB",
+      "alias": "cg",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_STTM_CUST_GROUP",
+      "remarks": ""
+    },
+    {
+      "no": 5,
+      "schema": "LPE_EDW_STG",
+      "tableName": "STG_UBS_STTM_DATES",
+      "type": "DB",
+      "alias": "dates",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')",
+      "remarks": ""
+    },
+    {
+      "no": 6,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+      "type": "DB",
+      "alias": "mcd",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+      "remarks": ""
+    },
+    {
+      "no": 7,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+      "type": "DB",
+      "alias": "cfuf",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+      "remarks": ""
+    },
+    {
+      "no": 8,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+      "type": "DB",
+      "alias": "udf_cif",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+      "remarks": ""
+    },
+    {
+      "no": 9,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CYTB_RATES_HISTORY",
+      "type": "DB",
+      "alias": "rate_usd",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'USD' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 10,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CYTB_RATES_HISTORY",
+      "type": "DB",
+      "alias": "rate_sgd",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'SGD' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 11,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CYTB_RATES_HISTORY",
+      "type": "DB",
+      "alias": "rate_myr",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'MYR' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 12,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CYTB_RATES_HISTORY",
+      "type": "DB",
+      "alias": "rate_jpy",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'JPY' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 13,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CYTB_RATES_HISTORY",
+      "type": "DB",
+      "alias": "rate_eur",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'EUR' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 14,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CYTB_RATES_HISTORY",
+      "type": "DB",
+      "alias": "rate_cny",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'CNY' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 15,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_CYTB_RATES_HISTORY",
+      "type": "DB",
+      "alias": "rate_chf",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'CHF' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "remarks": ""
+    },
+    {
+      "no": 16,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_STTM_DATES",
+      "type": "DB",
+      "alias": "dt",
+      "joinType": "CROSS JOIN",
+      "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')",
+      "remarks": ""
+    },
+    {
+      "no": 17,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_GETB_POOL_LINK",
+      "type": "DB",
+      "alias": "pool",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_GETB_POOL_LINK",
+      "remarks": ""
+    },
+    {
+      "no": 18,
+      "schema": "AGGREGATION",
+      "tableName": "SUBQUERY LIMIT",
+      "type": "DB",
+      "alias": "G",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "",
+      "remarks": ""
+    },
+    {
+      "no": 19,
+      "schema": "LPEI_EDW_STG",
+      "tableName": "STG_UBS_GETM_FACILITY",
+      "type": "DB",
+      "alias": "g2",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_GETM_FACILITY",
+      "remarks": ""
+    }
+  ],
+  "datasets": [
+    {
+      "name": "IM_LIMIT",
+      "classification": "destination",
+      "fields": {
+        "BUSINESS_DATE": {
+          "name": "BUSINESS_DATE",
+          "dataType": "Date",
+          "description": "Business Date / Effective Date",
+          "mappings": [
+            {
+              "id": "ea9603c3-643e-4975-93b2-cc611e32566a",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "@BUSINESS_DATE",
+              "remarks": "Generate by System",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "DATA_SOURCE": {
+          "name": "DATA_SOURCE",
+          "dataType": "Varchar(300)",
+          "description": "Data Source",
+          "mappings": [
+            {
+              "id": "362d64c7-d86d-4a73-b3b5-519f072151f1",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "'IM_LIMIT'",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "PARTY_NO": {
+          "name": "PARTY_NO",
+          "dataType": "Varchar(20)",
+          "description": "CIF Number",
+          "mappings": [
+            {
+              "id": "70c79922-0318-482c-8a31-cd35cb4ddd84",
+              "sourceTable": "STG_UBS_STTM_CUSTOMER",
+              "sourceField": "CUSTOMER_NO",
+              "logic": "ISNULL( scus.CUSTOMER_NO ,'')",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_STTM_CUSTOMER"
+          ]
+        },
+        "ACCT_NO": {
+          "name": "ACCT_NO",
+          "dataType": "Varchar(50)",
+          "description": "Account Number",
+          "mappings": [
+            {
+              "id": "d0593d00-54c8-4592-ae49-6efecc6631ff",
+              "sourceTable": "STG_UBS_GETM_LIAB",
+              "sourceField": "LIAB_NO",
+              "logic": "ISNULL(CAST(liab.liab_no AS VARCHAR), '') + ISNULL(CAST(gfac.line_code AS VARCHAR), '') + ISNULL(CAST(gfac.line_serial AS VARCHAR), '')",
+              "remarks": "refer to NO_REKENING",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_LIAB",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_LIAB",
+                    "alias": "liab",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "STG_UBS_GETM_LIAB"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "84c02c77-b6da-4046-aca8-3aca04c62128",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CODE",
+              "logic": "ISNULL(CAST(liab.liab_no AS VARCHAR), '') + ISNULL(CAST(gfac.line_code AS VARCHAR), '') + ISNULL(CAST(gfac.line_serial AS VARCHAR), '')",
+              "remarks": "refer to NO_REKENING",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_LIAB",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_LIAB",
+                    "alias": "liab",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "STG_UBS_GETM_LIAB"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "4cfbf54c-758a-4584-92a1-cc7917eff96c",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_SERIAL",
+              "logic": "ISNULL(CAST(liab.liab_no AS VARCHAR), '') + ISNULL(CAST(gfac.line_code AS VARCHAR), '') + ISNULL(CAST(gfac.line_serial AS VARCHAR), '')",
+              "remarks": "refer to NO_REKENING",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_LIAB",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_LIAB",
+                    "alias": "liab",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "STG_UBS_GETM_LIAB"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_LIAB",
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "SPRTY_NO": {
+          "name": "SPRTY_NO",
+          "dataType": "Varchar(20)",
+          "description": "Single CIF Number",
+          "mappings": [
+            {
+              "id": "7f76c9c6-d130-49fb-8da1-d2c73cd2df56",
+              "sourceTable": "STG_UBS_STTM_CUSTOMER",
+              "sourceField": "CUSTOMER_NO",
+              "logic": "ISNULL( scus.CUSTOMER_NO ,'')",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_STTM_CUSTOMER"
+          ]
+        },
+        "ID_PARTY": {
+          "name": "ID_PARTY",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "a43d277e-7699-40db-9503-e7467f5ee479",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_7",
+              "logic": "ISNULL(cfuf.FIELD_VAL_7, '')",
+              "remarks": "refer to PARTY",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "POOL_ID": {
+          "name": "POOL_ID",
+          "dataType": "NUMERIC(22)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "dac1478a-1ec0-4b19-a7ce-025682af82b0",
+              "sourceTable": "STG_UBS_GETB_POOL_LINK",
+              "sourceField": "POOL_ID",
+              "logic": "ISNULL(pool.POOL_ID, 0)",
+              "remarks": "Link to IM_COLL",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETB_POOL_LINK"
+          ]
+        },
+        "LIMIT_NO": {
+          "name": "LIMIT_NO",
+          "dataType": "Varchar(50)",
+          "description": "Limit Number / Facility Number",
+          "mappings": [
+            {
+              "id": "8e9b71de-3493-4145-95b8-2653e0f598f7",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CODE",
+              "logic": "gfac.line_code + CAST(gfac.line_serial AS VARCHAR)",
+              "remarks": "LIMIT_NO sama dengan CREDIT_LINE di CSV",
+              "gap": "",
+              "joinGroup": null
+            },
+            {
+              "id": "ef5c9efc-9d2e-4811-ae99-8d9b2b457c43",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_SERIAL",
+              "logic": "gfac.line_code + CAST(gfac.line_serial AS VARCHAR)",
+              "remarks": "LIMIT_NO sama dengan CREDIT_LINE di CSV",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "INIT_CONTRACT_NO": {
+          "name": "INIT_CONTRACT_NO",
+          "dataType": "Varchar(150)",
+          "description": "Initial Contract No",
+          "mappings": [
+            {
+              "id": "36dc2b3a-9d3a-42d1-bfc5-c6974c19f681",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "UDF_VALUE_1",
+              "logic": "ISNULL(gfac.udf_value_1,'')",
+              "remarks": "refer to NO_AKAD_AWAL",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "BRANCH_CD": {
+          "name": "BRANCH_CD",
+          "dataType": "Varchar(10)",
+          "description": "Branch Code",
+          "mappings": [
+            {
+              "id": "b67184bf-f929-480d-99a8-b269ca2edc9d",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "BRN",
+              "logic": "ISNULL(gfac.BRN,'')",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "RESTRU_CD": {
+          "name": "RESTRU_CD",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "31e0b79c-dbce-46cd-8cba-05f6b8e9a76b",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_44",
+              "logic": "ISNULL(cfuf.FIELD_VAL_44, '')",
+              "remarks": "refer to KODE_CARA_RESTRUKTURISASI",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "CCY_CD": {
+          "name": "CCY_CD",
+          "dataType": "Char(3)",
+          "description": "Currency Code",
+          "mappings": [
+            {
+              "id": "78094d0c-ac36-40ba-9585-7fa80c8950a1",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "ISNULL(gfac.LINE_CURRENCY,'')",
+              "remarks": "refer to CCY",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "CREDIT_CLASS": {
+          "name": "CREDIT_CLASS",
+          "dataType": "Varchar(10)",
+          "description": "Credit Classification",
+          "mappings": [
+            {
+              "id": "56f41be9-e3b8-450b-bef1-02232b5a092e",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_15",
+              "logic": "ISNULL(cfuf.FIELD_VAL_15, '')",
+              "remarks": "refer to GOLONGAN_KREDIT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "OPERATION": {
+          "name": "OPERATION",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "d8e88b98-6eab-407c-bc2e-fec4d7da924e",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "'S'",
+              "remarks": "refer to OPERATION (Hardcoded)",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "TRANSFER_OS": {
+          "name": "TRANSFER_OS",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "98fdfcdf-43e6-4a29-b30b-d2fc377ab31d",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_37",
+              "logic": "ISNULL(cfuf.FIELD_VAL_37, '')",
+              "remarks": "refer to OS_PENGALIHAN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "SID_START": {
+          "name": "SID_START",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "870f7caf-d80b-4f64-9e84-16f572e0fe9b",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_8",
+              "logic": "ISNULL(cfuf.FIELD_VAL_8, '')",
+              "remarks": "refer to SID_START_HERE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "SYR_CONTRACT": {
+          "name": "SYR_CONTRACT",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "52d32143-e542-4b9d-b1fb-74e51d989efc",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_50",
+              "logic": "ISNULL(cfuf.FIELD_VAL_50, '')",
+              "remarks": "refer SYR_AKAD",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "SPECPROD_NONPKE": {
+          "name": "SPECPROD_NONPKE",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "902899c9-870b-4cf0-8b57-9070b7c63427",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_22",
+              "logic": "ISNULL(cfuf.FIELD_VAL_22, '')",
+              "remarks": "refer to PRODUK_KHUSUS_NONPKE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "PROGRAM_PKE": {
+          "name": "PROGRAM_PKE",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "aed2c65b-35fe-409b-bcef-1a1088a11f50",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_49",
+              "logic": "ISNULL(cfuf.FIELD_VAL_49, '')",
+              "remarks": "refer to PROGRAM_PKE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "ID_BANK": {
+          "name": "ID_BANK",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "a65160f6-3495-4fcf-9f0c-a086b74f2416",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "'918'",
+              "remarks": "refer to ID_BANK (Hardcoded)",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "ID_FACILITY": {
+          "name": "ID_FACILITY",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "737c7c2e-1867-488f-9638-83ec2c8ae20b",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "refer to ID_FASILITAS",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "ID_BRANCH_OFFICE": {
+          "name": "ID_BRANCH_OFFICE",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "c87a817f-6ade-45c4-8cf1-f58cc6fed312",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "'001'",
+              "remarks": "refer to ID_KTR_CABANG (Hardcoded)",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "ID_OFFICE": {
+          "name": "ID_OFFICE",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "c1400a43-4f7f-44d0-bcc0-289d33c6a3e8",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "'001'",
+              "remarks": "refer to ID_Lembaga (Hardcoded)",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "ID_CCY": {
+          "name": "ID_CCY",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "6f12a4c2-f168-42a1-97e9-d670ad9a9ac9",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "ISNULL(gfac.LINE_CURRENCY,'')",
+              "remarks": "refer to ID_VALUTA",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "ACC_TP": {
+          "name": "ACC_TP",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "32557f2c-c74e-4bc5-98ad-b73c6aeaae8b",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "'0605'",
+              "remarks": "refer to JENIS_FASILITAS (Hardcoded)",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "ACCT_TP": {
+          "name": "ACCT_TP",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "a483e14b-8085-4b21-b3c0-c66b7cfd4c57",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "FAC_TP": {
+          "name": "FAC_TP",
+          "dataType": "Char(1)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "f03622a5-150d-4332-9afc-dbc6a7d5d14e",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "FACILITY_TYPE",
+              "logic": "ISNULL(gfac.FACILITY_TYPE,'')",
+              "remarks": "Additional field based on GETM_FACILLITY.FACILITY_TYPE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "USAGE_TP": {
+          "name": "USAGE_TP",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "672423ef-f7b8-4cf8-9aa3-2f4be5e70b8d",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_16",
+              "logic": "ISNULL(cfuf.FIELD_VAL_16, '')",
+              "remarks": "refer to JENIS_PENGGUNAAN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "PROD_TP": {
+          "name": "PROD_TP",
+          "dataType": "Varchar(150)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "54471c36-64e6-424b-aebc-2e7c06f4b13c",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_5",
+              "logic": "ISNULL(cfuf.FIELD_VAL_5, '')",
+              "remarks": "refer to JENIS_PRODUK",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "ORIENT_TP": {
+          "name": "ORIENT_TP",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "72b71484-ce33-4506-aadc-f6f4bbbe07a1",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_17",
+              "logic": "ISNULL(cfuf.FIELD_VAL_17, '')",
+              "remarks": "refer to ORIENTASI_PENGGUNAAN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "INT_TP": {
+          "name": "INT_TP",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "7ebc1a15-3197-4e2f-acc4-d37e702db376",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_39",
+              "logic": "ISNULL(cfuf.FIELD_VAL_39, '')",
+              "remarks": "refer to SUKU_BUNGA_TYPE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "RESTRU_TP": {
+          "name": "RESTRU_TP",
+          "dataType": "Varchar(50)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "81e8bd75-6cfa-4907-8fb2-e0ee89a91c3c",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_43",
+              "logic": "ISNULL(cfuf.FIELD_VAL_43, '')",
+              "remarks": "refer to JENIS_RESTRUKTURISASI",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "NOVATION_TP": {
+          "name": "NOVATION_TP",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "b0b0978b-2c5c-42ef-88c4-2c43051e67e0",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_38",
+              "logic": "ISNULL(cfuf.FIELD_VAL_38, '')",
+              "remarks": "refer to JENIS_NOVASI",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "RESTRU_CNT": {
+          "name": "RESTRU_CNT",
+          "dataType": "Smallint",
+          "description": "",
+          "mappings": [
+            {
+              "id": "4cfd5620-e547-4689-9a73-ae515c77a52d",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_33",
+              "logic": "ISNULL(cfuf.FIELD_VAL_33, '')",
+              "remarks": "refer to RESTRUKTURISASI_KE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LIMIT_CAT": {
+          "name": "LIMIT_CAT",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "fa160770-2cb8-414b-98b7-7667aecfb517",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_41",
+              "logic": "ISNULL(cfuf.FIELD_VAL_41, '')",
+              "remarks": "refer to KATEGORI_LIMIT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "SYND_PART_PCT": {
+          "name": "SYND_PART_PCT",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "87ab96c4-6613-456b-934d-fcbe3cfe5c3a",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_25",
+              "logic": "ISNULL(cfuf.FIELD_VAL_25, 0)",
+              "remarks": "refer to SINDIKASI_PORSI_PERCENTAGE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "MAIN_CA": {
+          "name": "MAIN_CA",
+          "dataType": "Varchar(255)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "a32291b2-9e54-4a1a-a0eb-403bbf50019e",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_1",
+              "logic": "ISNULL(cfuf.FIELD_VAL_1, '')",
+              "remarks": "refer to MAIN CA",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LATEST_CA": {
+          "name": "LATEST_CA",
+          "dataType": "Varchar(255)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "66e8d8b0-a990-490f-b21f-68353e2d8ca4",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_2",
+              "logic": "ISNULL(cfuf.FIELD_VAL_2, '')",
+              "remarks": "refer to LATEST_CA",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "SERIAL_NO": {
+          "name": "SERIAL_NO",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "44d9c1e3-02ae-4ee8-90e1-12fb2d4a49e9",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_42",
+              "logic": "ISNULL(cfuf.FIELD_VAL_42, '')",
+              "remarks": "refer to LINKAGE_MAIN_LIMIT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "PRJ_LOC": {
+          "name": "PRJ_LOC",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "e7fad6a8-9605-4407-955d-d998ca4cf139",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_47",
+              "logic": "ISNULL(cfuf.FIELD_VAL_47, '')",
+              "remarks": "refer to LOKASI_PROYEK",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "C_CENT": {
+          "name": "C_CENT",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "dd1ebe89-b9f8-4222-8ebf-fc55f22b2822",
+              "sourceTable": "STG_UBS_MITMS_CUSTOMER_DEFAULT",
+              "sourceField": "COMP_MIS_8",
+              "logic": "ISNULL(mcd.COMP_MIS_8, '')",
+              "remarks": "refer to C_CENT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_MITMS_CUSTOMER_DEFAULT"
+          ]
+        },
+        "CB_LOC_CD": {
+          "name": "CB_LOC_CD",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "225103ef-a07d-4bc0-9f73-f764d6f8f1c9",
+              "sourceTable": "STG_UBS_MITMS_CUSTOMER_DEFAULT",
+              "sourceField": "COMP_MIS_7",
+              "logic": "ISNULL(mcd.COMP_MIS_7, '')",
+              "remarks": "refer to CB_LOC",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_MITMS_CUSTOMER_DEFAULT"
+          ]
+        },
+        "HS_ES_CD": {
+          "name": "HS_ES_CD",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "33eb63a6-5e60-4768-b45e-701111c64052",
+              "sourceTable": "STG_UBS_MITMS_CUSTOMER_DEFAULT",
+              "sourceField": "COMP_MIS_9",
+              "logic": "ISNULL(mcd.COMP_MIS_9,'')",
+              "remarks": "refer to HS_ES",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_MITMS_CUSTOMER_DEFAULT"
+          ]
+        },
+        "ECO_SECTOR_CD": {
+          "name": "ECO_SECTOR_CD",
+          "dataType": "Varchar(10)",
+          "description": "International Standard Industrial Classification",
+          "mappings": [
+            {
+              "id": "8d399313-17fb-4ac3-982d-c9ae5477cae3",
+              "sourceTable": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+              "sourceField": "COMP_MIS_6",
+              "logic": "ISNULL(mcd.COMP_MIS_6, '')",
+              "remarks": "refer to CB_ES",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_MITM_CUSTOMER_DEFAULT"
+          ]
+        },
+        "BUS_PROG_CD": {
+          "name": "BUS_PROG_CD",
+          "dataType": "Varchar(150)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "36414dc3-abb7-4759-a278-785748b1c37a",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_40",
+              "logic": "ISNULL(cfuf.FIELD_VAL_40, '')",
+              "remarks": "refer to KREDIT_PROGRAM_BISNIS",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "GOV_CR_CD": {
+          "name": "GOV_CR_CD",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "81e93ad7-caad-4e34-ae3e-637e820b9555",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_45",
+              "logic": "ISNULL(cfuf.FIELD_VAL_45, '')",
+              "remarks": "refer to KREDIT_PROGRAM_PEMERINTAH",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "CONTRACT_TP_CD": {
+          "name": "CONTRACT_TP_CD",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "7a73a5b6-db55-481f-ac63-c79f31c7c17b",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_46",
+              "logic": "ISNULL(cfuf.FIELD_VAL_46, '')",
+              "remarks": "refer to KODE_SKIM_AKAD_PEMBIAYAAN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "CR_TP_CD": {
+          "name": "CR_TP_CD",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "e9f13cd0-76a8-400e-841f-bece65acdb42",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_48",
+              "logic": "ISNULL(cfuf.FIELD_VAL_48, '')",
+              "remarks": "refer to KODE_JENIS_KREDIT_PEMBIAYAAN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LOAN_QUALITY_CONTRACT": {
+          "name": "LOAN_QUALITY_CONTRACT",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "26cc4950-f72a-46bb-bc82-5f6bfb6041f7",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "refer to KOLEKTIBILITAS_BY_CONTRACT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "INIT_CONTRACT_DT": {
+          "name": "INIT_CONTRACT_DT",
+          "dataType": "Date",
+          "description": "Initial Contract Date",
+          "mappings": [
+            {
+              "id": "f1ecba9d-d6b1-4754-a371-2ce8ed4da78b",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_10",
+              "logic": "ISNULL(cfuf.FIELD_VAL_10, '')",
+              "remarks": "refer to TANGGAL_AKAD_AWAL",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "INT_RT_INFO": {
+          "name": "INT_RT_INFO",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "3f369db8-77a8-48dc-beaf-b65afd7bb126",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "refer to INT_RT_INFO",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "NATURE_INT_RT": {
+          "name": "NATURE_INT_RT",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "be3809db-90e0-4c0f-aca8-25f718866c8f",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_20",
+              "logic": "ISNULL(cfuf.FIELD_VAL_20, '')",
+              "remarks": "refer to SIFAT_SUKU_BUNGA",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "INT_RT": {
+          "name": "INT_RT",
+          "dataType": "Numeric(30,10)",
+          "description": "Interest Rate",
+          "mappings": [
+            {
+              "id": "4571242d-bbcd-46bc-9326-741d9408f91f",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_19",
+              "logic": "ISNULL(cfuf.FIELD_VAL_19, 0)",
+              "remarks": "refer to SUKU_BUNGA",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "CONTRACT_NO": {
+          "name": "CONTRACT_NO",
+          "dataType": "Varchar(150)",
+          "description": "Contract No",
+          "mappings": [
+            {
+              "id": "913df510-333e-4201-b658-8693e7479dab",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "UDF_VALUE_2",
+              "logic": "ISNULL(gfac.udf_value_2,'')",
+              "remarks": "refer to NO_AKAD_AKHIR",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "CONTRACT_DT": {
+          "name": "CONTRACT_DT",
+          "dataType": "Date",
+          "description": "Contract Date",
+          "mappings": [
+            {
+              "id": "3e1ef2a8-332a-4213-9be4-0626125c4ab8",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_11",
+              "logic": "ISNULL(cfuf.FIELD_VAL_11, '')",
+              "remarks": "refer to TANGGAL_AKAD_AKHIR",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "DUE_DT": {
+          "name": "DUE_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "f91d1bfd-c098-462b-b051-fb888d9bb939",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_EXPIRY_DATE",
+              "logic": "ISNULL(gfac.LINE_EXPIRY_DATE,'')",
+              "remarks": "refer to TANGGAL_JATUH_TEMPO",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "MATURITY_DT": {
+          "name": "MATURITY_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "38eedc6c-c083-4557-a640-13aac910379f",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_EXPIRY_DATE",
+              "logic": "ISNULL(gfac.LINE_EXPIRY_DATE,'')",
+              "remarks": "refer to MATURITY_DATE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "VALUE_DT": {
+          "name": "VALUE_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "535386f3-ff9d-4032-910b-f5be25b479b7",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_START_DATE",
+              "logic": "ISNULL(gfac.LINE_START_DATE, NULL)",
+              "remarks": "refer to LINE_START_DATE",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "LAST_REVAL_DATE": {
+          "name": "LAST_REVAL_DATE",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "4960651b-1880-49d2-a9e4-2f3936d2cbd2",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LAST_REVAL_DATE",
+              "logic": "ISNULL(gfac.LAST_REVAL_DATE, NULL)",
+              "remarks": "refer to LAST_REVAL_DATE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "START_DT": {
+          "name": "START_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "b9b100f9-f73e-45ed-9267-82723d660d1a",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_13",
+              "logic": "ISNULL(cfuf.FIELD_VAL_13, '')",
+              "remarks": "refer to TANGGAL_MULAI",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "CREDIT_START_DT": {
+          "name": "CREDIT_START_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "86975207-f999-4de7-8a77-a8b8930bd36c",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_12",
+              "logic": "ISNULL(cfuf.FIELD_VAL_12, '')",
+              "remarks": "refer to TANGGAL_AWAL_KREDIT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "RESTRU_DT": {
+          "name": "RESTRU_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "271eb41e-b3c5-4748-9c5f-c586bab0d9e8",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_32",
+              "logic": "ISNULL(cfuf.FIELD_VAL_32, '')",
+              "remarks": "refer to TANGGAL_RESTRUKTURISASI",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "RESTRU_START_DT": {
+          "name": "RESTRU_START_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "19be9a33-d316-4ef7-91b0-ad21ad672d1c",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_34",
+              "logic": "ISNULL(cfuf.FIELD_VAL_34, '')",
+              "remarks": "refer to TGL_RESTRUKTURISASI_AWAL",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "NOVATION_DT": {
+          "name": "NOVATION_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "ca75533c-4a13-4801-b078-924ac30e3628",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_30",
+              "logic": "ISNULL(cfuf.FIELD_VAL_30, '')",
+              "remarks": "refer to TANGGAL_NOVASI",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "EXP_REV_PKE": {
+          "name": "EXP_REV_PKE",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "226bab9e-e9d8-4203-b47e-55e2af7123e3",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_23",
+              "logic": "ISNULL(cfuf.FIELD_VAL_23, 0)",
+              "remarks": "refer to NILAI_EKSPOR_PKE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "EXP_REV_PKE_DT": {
+          "name": "EXP_REV_PKE_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "b3bc21cd-a5b7-4378-96f9-49aaffa4ae96",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_26",
+              "logic": "ISNULL(cfuf.FIELD_VAL_26, '')",
+              "remarks": "refer to TGL_REVIEW_NILAI_EKSPOR_PKE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "RATING_CURR_DT": {
+          "name": "RATING_CURR_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "1ab2da1b-f220-46b2-a3d3-92c359fc48f6",
+              "sourceTable": "STG_UBS_STTM_CUSTOMER",
+              "sourceField": "REVISION_DATE",
+              "logic": "ISNULL(scus.REVISION_DATE, '')",
+              "remarks": "refer to REVISION_DATE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_STTM_CUSTOMER"
+          ]
+        },
+        "GROUP_LIMIT": {
+          "name": "GROUP_LIMIT",
+          "dataType": "Varchar(150)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "cbf9a7ef-4462-4e93-b9c3-ecb30c21b703",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "UDF_VALUE_5",
+              "logic": "ISNULL(gfac.udf_value_5,'')",
+              "remarks": "refer to GROUP_LIMIT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "RATE_FCY": {
+          "name": "RATE_FCY",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "76fd21e9-e5af-40fc-baf5-2f6e755f227a",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE gfac.LINE_CURRENCY\n     WHEN 'USD' THEN ROUND(rate_usd.MID_RATE, 2, 1)\n     WHEN 'SGD' THEN ROUND(rate_sgd.MID_RATE, 2, 1)\n     WHEN 'MYR' THEN ROUND(rate_myr.MID_RATE, 2, 1)\n     WHEN 'JPY' THEN ROUND(rate_jpy.MID_RATE, 2, 1)\n     WHEN 'EUR' THEN ROUND(rate_eur.MID_RATE, 2, 1)\n     WHEN 'CNY' THEN ROUND(cny.MID_RATE, 2, 1)\n     WHEN 'CHF' THEN ROUND(chf.MID_RATE, 2, 1)\n     ELSE 1\nEND",
+              "remarks": "refer to RATE_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "SUB1"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "3c07379e-9b97-425a-9dc0-c2af3bcade58",
+              "sourceTable": "SUB1",
+              "sourceField": "MID_RATE",
+              "logic": "CASE gfac.LINE_CURRENCY\n     WHEN 'USD' THEN ROUND(rate_usd.MID_RATE, 2, 1)\n     WHEN 'SGD' THEN ROUND(rate_sgd.MID_RATE, 2, 1)\n     WHEN 'MYR' THEN ROUND(rate_myr.MID_RATE, 2, 1)\n     WHEN 'JPY' THEN ROUND(rate_jpy.MID_RATE, 2, 1)\n     WHEN 'EUR' THEN ROUND(rate_eur.MID_RATE, 2, 1)\n     WHEN 'CNY' THEN ROUND(cny.MID_RATE, 2, 1)\n     WHEN 'CHF' THEN ROUND(chf.MID_RATE, 2, 1)\n     ELSE 1\nEND",
+              "remarks": "refer to RATE_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "SUB1"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY",
+            "SUB1"
+          ]
+        },
+        "RATE_FLOAT_REF": {
+          "name": "RATE_FLOAT_REF",
+          "dataType": "Varchar(255)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "7ea01273-eb23-468a-b73e-57919567afd4",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_35",
+              "logic": "ISNULL(cfuf.FIELD_VAL_35, '')",
+              "remarks": "refer to REF_RATE_FLOAT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LIMIT_RENEW_CNT": {
+          "name": "LIMIT_RENEW_CNT",
+          "dataType": "Smallint",
+          "description": "Limit renew counter",
+          "mappings": [
+            {
+              "id": "5c705320-8d79-4553-9bf9-74461461203c",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_14",
+              "logic": "ISNULL(cfuf.FIELD_VAL_14, '')",
+              "remarks": "refer to BARU_PERPANJANGAN",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "PRJ_AMT": {
+          "name": "PRJ_AMT",
+          "dataType": "Numeric(20,2)",
+          "description": "Project Amount",
+          "mappings": [
+            {
+              "id": "a6986c08-9138-4033-9c2d-bc98087e9e67",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_18",
+              "logic": "ISNULL(cfuf.FIELD_VAL_18, 0)",
+              "remarks": "refer to NILAI_PROYEK",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "COLL_AMT": {
+          "name": "COLL_AMT",
+          "dataType": "Numeric(20,2)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "f943f023-c65a-424f-87d6-646847fe4d5b",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_29",
+              "logic": "ISNULL(cfuf.FIELD_VAL_29, 0)",
+              "remarks": "refer to AGUNAN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LIMIT_STATUS": {
+          "name": "LIMIT_STATUS",
+          "dataType": "Varchar(150)",
+          "description": "Limit status",
+          "mappings": [
+            {
+              "id": "a5c53041-219a-4411-949e-86828e7eac2e",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "RECORD_STATUS": {
+          "name": "RECORD_STATUS",
+          "dataType": "Char(1)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "82525491-3607-4e73-85fb-421840ac635d",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "RECORD_STAT",
+              "logic": "ISNULL(gfac.RECORD_STAT, \")",
+              "remarks": "Additional field based on GETM_FACILLITY",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "ORI_INIT_LIMIT_AMT": {
+          "name": "ORI_INIT_LIMIT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Initial limit amount in original currency",
+          "mappings": [
+            {
+              "id": "f75db751-75b2-42e7-8692-fda78e18051b",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_21",
+              "logic": "ISNULL(cfuf.FIELD_VAL_21, 0)",
+              "remarks": "refer to PLAFOND INDUK",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LCY_INIT_LIMIT_AMT": {
+          "name": "LCY_INIT_LIMIT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Initial limit amount in local currency",
+          "mappings": [
+            {
+              "id": "45287070-ee40-4ee9-a0a0-c5b1b5560c1f",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_21",
+              "logic": "ISNULL(cfuf.FIELD_VAL_21, 0) *\nISNULL(\n    CASE gfac.LINE_CURRENCY\n        WHEN 'USD' THEN rate_usd.MID_RATE\n        WHEN 'SGD' THEN rate_sgd.MID_RATE\n        WHEN 'MYR' THEN rate_myr.MID_RATE\n        WHEN 'JPY' THEN rate_jpy.MID_RATE\n        WHEN 'EUR' THEN rate_eur.MID_RATE\n        WHEN 'CNY' THEN cny.MID_RATE\n        WHEN 'CHF' THEN chf.MID_RATE\n        ELSE 1\n    END,\n1)",
+              "remarks": "PLAFOND_INDUK * mid_rate",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+                  "STG_UBS_CYTM_RATES"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+                    "alias": "scus",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT C.*, E.FIELD_VAL_2, E.FIELD_VAL_17\r\n    FROM STG_UBS_STTM_CUSTOMER C\r\n    LEFT JOIN STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS E\r\n        ON E.REC_KEY = C.CUSTOMER_NO + '~'\r\n       AND E.FUNCTION_ID = 'STDCIF'\r\n)"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "e715ce8c-a07c-41c5-b88e-a0141a414975",
+              "sourceTable": "STG_UBS_CYTM_RATES",
+              "sourceField": "MID_RATE",
+              "logic": "ISNULL(cfuf.FIELD_VAL_21, 0) *\nISNULL(\n    CASE gfac.LINE_CURRENCY\n        WHEN 'USD' THEN rate_usd.MID_RATE\n        WHEN 'SGD' THEN rate_sgd.MID_RATE\n        WHEN 'MYR' THEN rate_myr.MID_RATE\n        WHEN 'JPY' THEN rate_jpy.MID_RATE\n        WHEN 'EUR' THEN rate_eur.MID_RATE\n        WHEN 'CNY' THEN cny.MID_RATE\n        WHEN 'CHF' THEN chf.MID_RATE\n        ELSE 1\n    END,\n1)",
+              "remarks": "PLAFOND_INDUK * mid_rate",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+                  "STG_UBS_CYTM_RATES"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+                    "alias": "scus",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT C.*, E.FIELD_VAL_2, E.FIELD_VAL_17\r\n    FROM STG_UBS_STTM_CUSTOMER C\r\n    LEFT JOIN STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS E\r\n        ON E.REC_KEY = C.CUSTOMER_NO + '~'\r\n       AND E.FUNCTION_ID = 'STDCIF'\r\n)"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+            "STG_UBS_CYTM_RATES"
+          ]
+        },
+        "ORI_LIMIT_AMT": {
+          "name": "ORI_LIMIT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Limit amount in original currency",
+          "mappings": [
+            {
+              "id": "2f86e57a-9eda-4860-b5e5-78e54ec6f6f1",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LIMIT_AMOUNT",
+              "logic": "CASE \n    WHEN gfac.LINE_CURRENCY IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF')  \n        THEN gfac.LIMIT_AMOUNT\n    ELSE 0\nEND",
+              "remarks": "refer to PLAFOND_IDR, PLAFOND_FCY",
+              "gap": "",
+              "joinGroup": null
+            },
+            {
+              "id": "572cf7b8-821e-40ad-966a-cc2b9cc69962",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE \n    WHEN gfac.LINE_CURRENCY IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF')  \n        THEN gfac.LIMIT_AMOUNT\n    ELSE 0\nEND",
+              "remarks": "refer to PLAFOND_IDR, PLAFOND_FCY",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "LCY_LIMIT_AMT": {
+          "name": "LCY_LIMIT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Limit amount in local currency",
+          "mappings": [
+            {
+              "id": "51630578-cf8b-42ef-9a44-7937329c66b2",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LIMIT_AMOUNT",
+              "logic": "CASE gfac.LINE_CURRENCY\n    WHEN 'USD' THEN gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE gfac.limit_amount\nEND",
+              "remarks": "refer to PLAFOND_EQV_IDR",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTB_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  },
+                  {
+                    "table": "STG_UBS_CYTB_RATES_HISTORY",
+                    "alias": "rate_usd",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'USD' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "61c24a25-71ef-499c-bfbc-169f41bbad03",
+              "sourceTable": "STG_UBS_CYTB_RATES_HISTORY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE gfac.LINE_CURRENCY\n    WHEN 'USD' THEN gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE gfac.limit_amount\nEND",
+              "remarks": "refer to PLAFOND_EQV_IDR",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTB_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  },
+                  {
+                    "table": "STG_UBS_CYTB_RATES_HISTORY",
+                    "alias": "rate_usd",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'USD' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "34f6add9-9d6f-4eb3-bd50-8b2d9812c62b",
+              "sourceTable": "STG_UBS_CYTB_RATES_HISTORY",
+              "sourceField": "MID_RATE",
+              "logic": "CASE gfac.LINE_CURRENCY\n    WHEN 'USD' THEN gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE gfac.limit_amount\nEND",
+              "remarks": "refer to PLAFOND_EQV_IDR",
+              "gap": "",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTB_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  },
+                  {
+                    "table": "STG_UBS_CYTB_RATES_HISTORY",
+                    "alias": "rate_usd",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'USD' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY",
+            "STG_UBS_CYTB_RATES_HISTORY"
+          ]
+        },
+        "LCY_BAL": {
+          "name": "LCY_BAL",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "171234ce-397f-4302-b1a9-37883a976e6a",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE gfac.line_currency \n    WHEN 'USD' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_usd.MID_RATE, 1)\n    WHEN 'SGD' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_sgd.MID_RATE, 1)\n    WHEN 'MYR' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_myr.MID_RATE, 1)\n    WHEN 'JPY' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_jpy.MID_RATE, 1)\n    WHEN 'EUR' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_eur.MID_RATE, 1)\n    WHEN 'CNY' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_cny.MID_RATE, 1)\n    WHEN 'CHF' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_chf.MID_RATE, 1)\n    ELSE ISNULL(G.outstanding, 0)\nEND",
+              "remarks": "refer to OUTSTANDING_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY",
+                  "STG_UBS_CYTM_RATES"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "c7b060fe-eeb9-455d-8b2b-52f458cb0679",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "MID_RATE",
+              "logic": "CASE gfac.line_currency \n    WHEN 'USD' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_usd.MID_RATE, 1)\n    WHEN 'SGD' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_sgd.MID_RATE, 1)\n    WHEN 'MYR' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_myr.MID_RATE, 1)\n    WHEN 'JPY' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_jpy.MID_RATE, 1)\n    WHEN 'EUR' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_eur.MID_RATE, 1)\n    WHEN 'CNY' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_cny.MID_RATE, 1)\n    WHEN 'CHF' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_chf.MID_RATE, 1)\n    ELSE ISNULL(G.outstanding, 0)\nEND",
+              "remarks": "refer to OUTSTANDING_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY",
+                  "STG_UBS_CYTM_RATES"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "335c2427-6cbc-4d08-be2f-149f565fc8cc",
+              "sourceTable": "STG_UBS_CYTM_RATES",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE gfac.line_currency \n    WHEN 'USD' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_usd.MID_RATE, 1)\n    WHEN 'SGD' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_sgd.MID_RATE, 1)\n    WHEN 'MYR' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_myr.MID_RATE, 1)\n    WHEN 'JPY' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_jpy.MID_RATE, 1)\n    WHEN 'EUR' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_eur.MID_RATE, 1)\n    WHEN 'CNY' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_cny.MID_RATE, 1)\n    WHEN 'CHF' THEN ISNULL(G.outstanding, 0) * ISNULL(rate_chf.MID_RATE, 1)\n    ELSE ISNULL(G.outstanding, 0)\nEND",
+              "remarks": "refer to OUTSTANDING_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY",
+                  "STG_UBS_CYTM_RATES"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY",
+            "STG_UBS_CYTBS_RATES_HISTORY",
+            "STG_UBS_CYTM_RATES"
+          ]
+        },
+        "ORI_BAL": {
+          "name": "ORI_BAL",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "6b728834-527c-4ab8-8991-f73cfea2a0d7",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE \n        WHEN gfac.line_currency IN ('IDR', 'USD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') \n            THEN ISNULL(G.outstanding, 0)\n        ELSE 0 \n    END",
+              "remarks": "OUTSTANDING_IDR / OUTSTANDING_FCY",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "LCY_AVAIL": {
+          "name": "LCY_AVAIL",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "abbcad0c-0b40-4f0f-af05-5971624a245b",
+              "sourceTable": "STG_UBS_STTM_DATES",
+              "sourceField": "TODAY",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency = 'USD' THEN (gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_usd.mid_rate)\n    WHEN gfac.line_currency = 'SGD' THEN (gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_sgd.mid_rate)\n    WHEN gfac.line_currency = 'MYR' THEN (gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_myr.mid_rate)\n    WHEN gfac.line_currency = 'JPY' THEN (gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_jpy.mid_rate)\n    WHEN gfac.line_currency = 'EUR' THEN (gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_eur.mid_rate)\n    WHEN gfac.line_currency = 'CNY' THEN (gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_cny.mid_rate)\n    WHEN gfac.line_currency = 'CHF' THEN (gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_chf.mid_rate)\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "effcb475-72de-44ec-8bfd-cbe7efacccaf",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "BRANCH_CODE",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency = 'USD' THEN (gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_usd.mid_rate)\n    WHEN gfac.line_currency = 'SGD' THEN (gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_sgd.mid_rate)\n    WHEN gfac.line_currency = 'MYR' THEN (gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_myr.mid_rate)\n    WHEN gfac.line_currency = 'JPY' THEN (gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_jpy.mid_rate)\n    WHEN gfac.line_currency = 'EUR' THEN (gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_eur.mid_rate)\n    WHEN gfac.line_currency = 'CNY' THEN (gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_cny.mid_rate)\n    WHEN gfac.line_currency = 'CHF' THEN (gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_chf.mid_rate)\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "378bc717-e77d-49b2-ba1b-47c4bc530d50",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "UDF_VALUE_3",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency = 'USD' THEN (gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_usd.mid_rate)\n    WHEN gfac.line_currency = 'SGD' THEN (gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_sgd.mid_rate)\n    WHEN gfac.line_currency = 'MYR' THEN (gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_myr.mid_rate)\n    WHEN gfac.line_currency = 'JPY' THEN (gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_jpy.mid_rate)\n    WHEN gfac.line_currency = 'EUR' THEN (gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_eur.mid_rate)\n    WHEN gfac.line_currency = 'CNY' THEN (gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_cny.mid_rate)\n    WHEN gfac.line_currency = 'CHF' THEN (gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_chf.mid_rate)\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "43acafff-b6a5-46cd-8d28-03b2eb1d39a0",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "UDF_VALUE_4",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency = 'USD' THEN (gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_usd.mid_rate)\n    WHEN gfac.line_currency = 'SGD' THEN (gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_sgd.mid_rate)\n    WHEN gfac.line_currency = 'MYR' THEN (gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_myr.mid_rate)\n    WHEN gfac.line_currency = 'JPY' THEN (gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_jpy.mid_rate)\n    WHEN gfac.line_currency = 'EUR' THEN (gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_eur.mid_rate)\n    WHEN gfac.line_currency = 'CNY' THEN (gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_cny.mid_rate)\n    WHEN gfac.line_currency = 'CHF' THEN (gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_chf.mid_rate)\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "a161c953-0971-4fd1-8ac3-f42df237b258",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency = 'USD' THEN (gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_usd.mid_rate)\n    WHEN gfac.line_currency = 'SGD' THEN (gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_sgd.mid_rate)\n    WHEN gfac.line_currency = 'MYR' THEN (gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_myr.mid_rate)\n    WHEN gfac.line_currency = 'JPY' THEN (gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_jpy.mid_rate)\n    WHEN gfac.line_currency = 'EUR' THEN (gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_eur.mid_rate)\n    WHEN gfac.line_currency = 'CNY' THEN (gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_cny.mid_rate)\n    WHEN gfac.line_currency = 'CHF' THEN (gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_chf.mid_rate)\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "aa3d997f-4524-4b1d-ba16-3bc67f8c9f50",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "LIMIT_AMOUNT",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency = 'USD' THEN (gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_usd.mid_rate)\n    WHEN gfac.line_currency = 'SGD' THEN (gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_sgd.mid_rate)\n    WHEN gfac.line_currency = 'MYR' THEN (gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_myr.mid_rate)\n    WHEN gfac.line_currency = 'JPY' THEN (gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_jpy.mid_rate)\n    WHEN gfac.line_currency = 'EUR' THEN (gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_eur.mid_rate)\n    WHEN gfac.line_currency = 'CNY' THEN (gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_cny.mid_rate)\n    WHEN gfac.line_currency = 'CHF' THEN (gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_chf.mid_rate)\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "607fd61c-a133-4d23-874e-8cb6e30dbee1",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "MID_RATE",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency = 'USD' THEN (gfac.limit_amount * ROUND(rate_usd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_usd.mid_rate)\n    WHEN gfac.line_currency = 'SGD' THEN (gfac.limit_amount * ROUND(rate_sgd.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_sgd.mid_rate)\n    WHEN gfac.line_currency = 'MYR' THEN (gfac.limit_amount * ROUND(rate_myr.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_myr.mid_rate)\n    WHEN gfac.line_currency = 'JPY' THEN (gfac.limit_amount * ROUND(rate_jpy.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_jpy.mid_rate)\n    WHEN gfac.line_currency = 'EUR' THEN (gfac.limit_amount * ROUND(rate_eur.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_eur.mid_rate)\n    WHEN gfac.line_currency = 'CNY' THEN (gfac.limit_amount * ROUND(rate_cny.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_cny.mid_rate)\n    WHEN gfac.line_currency = 'CHF' THEN (gfac.limit_amount * ROUND(rate_chf.mid_rate, 2, 1) - ISNULL(gfac.utilisation, 0) * rate_chf.mid_rate)\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_STTM_DATES",
+            "STG_UBS_GETM_FACILITY",
+            "STG_UBS_CYTBS_RATES_HISTORY"
+          ]
+        },
+        "ORI_AVAIL": {
+          "name": "ORI_AVAIL",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "0b79f4ef-abe3-4c0a-8aff-d3c587f4eb09",
+              "sourceTable": "STG_UBS_STTM_DATES",
+              "sourceField": "TODAY",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN (gfac.limit_amount - ISNULL(gfac.utilisation, 0))\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_IDR & AVAILABILITY_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "599e859e-4711-4911-a017-70934f85b3a5",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "BRANCH_CODE",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN (gfac.limit_amount - ISNULL(gfac.utilisation, 0))\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_IDR & AVAILABILITY_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "4f516943-0db7-44a6-b5ec-7ff2d85adf95",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "UDF_VALUE_3",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN (gfac.limit_amount - ISNULL(gfac.utilisation, 0))\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_IDR & AVAILABILITY_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "c8674cca-cd56-4387-b34c-85207dcc3973",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "UDF_VALUE_4",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN (gfac.limit_amount - ISNULL(gfac.utilisation, 0))\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_IDR & AVAILABILITY_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "092bb189-2399-4058-ab9d-27a257e7fb4e",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN (gfac.limit_amount - ISNULL(gfac.utilisation, 0))\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_IDR & AVAILABILITY_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "83dc3de8-b5c8-4fe6-9a0b-42ceca057c7f",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LIMIT_AMOUNT",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN (gfac.limit_amount - ISNULL(gfac.utilisation, 0))\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_IDR & AVAILABILITY_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "ccdd4d45-8178-46d1-806c-d266d5fd25c7",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "UTILISATION",
+              "logic": "CASE\n    WHEN CAST(ISNULL(gfac.udf_value_3, '9999-12-31') AS DATE) < dates.TODAY THEN 0\n    WHEN gfac.udf_value_4 IN ('UNCOMMITTED', 'RESTRUCTURING', 'RECOVERY') THEN 0\n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN (gfac.limit_amount - ISNULL(gfac.utilisation, 0))\n    ELSE 0\nEND",
+              "remarks": "refer to AVAILABILITY_IDR & AVAILABILITY_FCY",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_STTM_DATES",
+                  "STG_UBS_GETM_FACILITY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_STTM_DATES",
+                    "alias": "dates",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_STTM_DATES",
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "LAST_AVAIL_DT": {
+          "name": "LAST_AVAIL_DT",
+          "dataType": "Date",
+          "description": "",
+          "mappings": [
+            {
+              "id": "12e080e0-a608-4280-a8b1-e8b9c9f2c0da",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_3",
+              "logic": "ISNULL(cfuf.FIELD_VAL_3, '')",
+              "remarks": "refer to LAST_AVAILABLE_DATE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LCY_UTILIZATION": {
+          "name": "LCY_UTILIZATION",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "5142b6f7-66d1-4826-9f8d-49893c204fc2",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE gfac.line_currency\n    WHEN 'USD' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE 0\nEND",
+              "remarks": "refer to UTILISATION_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "c0121609-db4c-417f-a36f-9105bb97ddb4",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "UTILISATION",
+              "logic": "CASE gfac.line_currency\n    WHEN 'USD' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE 0\nEND",
+              "remarks": "refer to UTILISATION_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "e6dbfd86-736a-4656-a130-a817d685d708",
+              "sourceTable": "STG_UBS_CYTBS_RATES_HISTORY",
+              "sourceField": "MID_RATE",
+              "logic": "CASE gfac.line_currency\n    WHEN 'USD' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN ISNULL(gfac.utilisation, 0) * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE 0\nEND",
+              "remarks": "refer to UTILISATION_EQV_IDR",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_GETM_FACILITY",
+                  "STG_UBS_CYTBS_RATES_HISTORY"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_GETM_FACILITY",
+                    "alias": "gfac",
+                    "joinType": "-",
+                    "joinCondition": "STG_UBS_GETM_FACILITY"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY",
+            "STG_UBS_CYTBS_RATES_HISTORY"
+          ]
+        },
+        "ORI_UTILIZATION": {
+          "name": "ORI_UTILIZATION",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "ae2b0fec-cda1-43c5-af5e-31275bbdffba",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CURRENCY",
+              "logic": "CASE \n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN ISNULL(gfac.utilisation, 0)\n    ELSE 0\nEND",
+              "remarks": "refer to UTILISATION_IDR dan UTILISATION_FCY",
+              "gap": "Y",
+              "joinGroup": null
+            },
+            {
+              "id": "e44d3ab5-ffc4-44bb-90c6-3a02463287fb",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "UTILISATION",
+              "logic": "CASE \n    WHEN gfac.line_currency IN ('IDR', 'USD', 'SGD', 'MYR', 'JPY', 'EUR', 'CNY', 'CHF') THEN ISNULL(gfac.utilisation, 0)\n    ELSE 0\nEND",
+              "remarks": "refer to UTILISATION_IDR dan UTILISATION_FCY",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "ORI_MARKET_LIMIT_AMT": {
+          "name": "ORI_MARKET_LIMIT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Market limit amount in original currency",
+          "mappings": [
+            {
+              "id": "488b4ab6-9912-422e-8f0f-853ff6698abd",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "LCY_MARKET_LIMIT_AMT": {
+          "name": "LCY_MARKET_LIMIT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Market limit amount in original currency",
+          "mappings": [
+            {
+              "id": "dfc275df-3ae5-45cf-b58f-0d0b5078541f",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "ORI_DISBURSE_AVAIL": {
+          "name": "ORI_DISBURSE_AVAIL",
+          "dataType": "Numeric(30,10)",
+          "description": "Realized/Disbursement availability in original currency",
+          "mappings": [
+            {
+              "id": "0b5db8df-e6c2-40bd-86f5-8fb255393ded",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "LCY_DISBURSE_AVAIL": {
+          "name": "LCY_DISBURSE_AVAIL",
+          "dataType": "Numeric(30,10)",
+          "description": "Realized/Disbursement availability in local currency",
+          "mappings": [
+            {
+              "id": "626afaec-0e54-43aa-bb5f-05ef09f2ac14",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "ORI_EXPOSURE": {
+          "name": "ORI_EXPOSURE",
+          "dataType": "Numeric(30,10)",
+          "description": "Exposure in original currency",
+          "mappings": [
+            {
+              "id": "feae413d-74aa-472c-9f1a-471b9691425f",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "LCY_EXPOSURE": {
+          "name": "LCY_EXPOSURE",
+          "dataType": "Numeric(30,10)",
+          "description": "Exposure in original currency",
+          "mappings": [
+            {
+              "id": "edae146c-1362-450b-9a73-f63ddd8e75f7",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "Additional field source from ACUMEN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "CUM_REALIZATION": {
+          "name": "CUM_REALIZATION",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "ca8de33c-7ce6-4cf6-9d29-57fd3c2cfe82",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "refer to KUMULATIF_REALISASI (l_kumulatif_realisasi := 0)",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "PPAP": {
+          "name": "PPAP",
+          "dataType": "Numeric(30,10)",
+          "description": "Facility Type (Y/N)",
+          "mappings": [
+            {
+              "id": "04479504-17cc-4ff8-bee7-734025d16ad7",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "SET PPAP = ROUND(\n  CASE COLL_STATUS\n    WHEN '1' THEN LCY_BAL * 0.01\n    WHEN '2' THEN LCY_BAL * 0.05\n    WHEN '3' THEN LCY_BAL * 0.15\n    WHEN '4' THEN LCY_BAL * 0.50\n    WHEN '5' THEN LCY_BAL\n    ELSE 0\n  END, 0\n);",
+              "remarks": "refer to PPAP",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "REVOLVING": {
+          "name": "REVOLVING",
+          "dataType": "Varchar(20)",
+          "description": "Facility Type (Y/N)",
+          "mappings": [
+            {
+              "id": "9eb80b52-aecc-447b-be5f-9dcdb94d3e11",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "REVOLVING_LINE",
+              "logic": "ISNULL(gfac.REVOLVING_LINE, '')",
+              "remarks": "refer to TYPE_FACILITY",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "RE_ASSURANCE": {
+          "name": "RE_ASSURANCE",
+          "dataType": "Varchar(50)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "72d4dd92-aaf9-44d0-9c62-1e0dedeaa203",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_6",
+              "logic": "ISNULL(cfuf.FIELD_VAL_6, '')",
+              "remarks": "refer to RE_ASSURANCE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "MAIN_LIMIT_REF": {
+          "name": "MAIN_LIMIT_REF",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "259e5a3e-dbbe-477b-9bef-f70ee2805e01",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_42",
+              "logic": "ISNULL(cfuf.FIELD_VAL_42, '')",
+              "remarks": "refer to LINKED_MAIN_LIMIT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "MAIN_LINE": {
+          "name": "MAIN_LINE",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "76a5f6d3-fe8a-4e78-ba49-39b45597dd96",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "refer to MAIN_LINE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "MAIN_LINE_ID": {
+          "name": "MAIN_LINE_ID",
+          "dataType": "Varchar(50)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "38dc8118-b2ea-4708-85e0-011d9b7a6b13",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "MAIN_LINE_ID",
+              "logic": "ISNULL(gfac.MAIN_LINE_ID,'')",
+              "remarks": "Additional field based on GETM_FACILLITY",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "DATA_ID": {
+          "name": "DATA_ID",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "c4061c16-f119-4c19-a862-8aae4c8f9bbc",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "'SID033'",
+              "remarks": "refer to ID_DATA",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "FAC_ID": {
+          "name": "FAC_ID",
+          "dataType": "Varchar(50)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "df55c6fe-cac8-41eb-a571-3b0a1b0d2790",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "ID",
+              "logic": "ISNULL(gfac.ID,'')",
+              "remarks": "Additional field based on GETM_FACILLITY / refer to FACILITY_ID",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "GROUP_ID": {
+          "name": "GROUP_ID",
+          "dataType": "Varchar(50)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "b818cb3a-eb59-452a-9a66-c1dbd0a2eb3e",
+              "sourceTable": "STG_UBS_STTM_CUSTOMER",
+              "sourceField": "GROUP_ID",
+              "logic": "ISNULL(cg.GROUP_ID, '')",
+              "remarks": "refer to GROUP_ID",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_STTM_CUSTOMER"
+          ]
+        },
+        "NEW_ID": {
+          "name": "NEW_ID",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "369b9bce-3524-4937-ba3f-8cc7463988dd",
+              "sourceTable": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+              "sourceField": "COMP_MIS_8",
+              "logic": "CONCAT(mcd.COMP_MIS_8, liab.LIAB_NO)",
+              "remarks": "refer to IDBARU",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_MITM_CUSTOMER_DEFAULT",
+                  "STG_UBS_GETM_LIAB"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+                    "alias": "mcd",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "STG_UBS_MITM_CUSTOMER_DEFAULT"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_LIAB",
+                    "alias": "liab",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "STG_UBS_GETM_LIAB"
+                  }
+                ],
+                "status": "resolved"
+              }
+            },
+            {
+              "id": "13dd69de-2110-4eab-874f-808203282bee",
+              "sourceTable": "STG_UBS_GETM_LIAB",
+              "sourceField": "LIAB_NO",
+              "logic": "CONCAT(mcd.COMP_MIS_8, liab.LIAB_NO)",
+              "remarks": "refer to IDBARU",
+              "gap": "Y",
+              "joinGroup": {
+                "tables": [
+                  "STG_UBS_MITM_CUSTOMER_DEFAULT",
+                  "STG_UBS_GETM_LIAB"
+                ],
+                "joinInfo": [
+                  {
+                    "table": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+                    "alias": "mcd",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "STG_UBS_MITM_CUSTOMER_DEFAULT"
+                  },
+                  {
+                    "table": "STG_UBS_GETM_LIAB",
+                    "alias": "liab",
+                    "joinType": "LEFT JOIN",
+                    "joinCondition": "STG_UBS_GETM_LIAB"
+                  }
+                ],
+                "status": "resolved"
+              }
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_MITM_CUSTOMER_DEFAULT",
+            "STG_UBS_GETM_LIAB"
+          ]
+        },
+        "DEBTOR_CONDITION": {
+          "name": "DEBTOR_CONDITION",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "d511e14b-5ce8-4d2f-8fcf-5c216c4450d3",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "refer to KONDISI_DEBITUR",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "DEBTOR_ISSUE": {
+          "name": "DEBTOR_ISSUE",
+          "dataType": "Varchar(300)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "61a48521-47ef-4b6e-a02d-d7469e256df6",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_36",
+              "logic": "ISNULL(cfuf.FIELD_VAL_36, '')",
+              "remarks": "refer to PERMASALAHAN_DEBITUR",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "ORI_DEBTOR": {
+          "name": "ORI_DEBTOR",
+          "dataType": "Varchar(150)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "1a57030b-d140-4341-bc4e-e1c7d1dc2b7d",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_31",
+              "logic": "ISNULL(cfuf.FIELD_VAL_31, '')",
+              "remarks": "refer to ASAL_DEBITUR",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "DISCOUNT": {
+          "name": "DISCOUNT",
+          "dataType": "Numeric(20,2)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "91471dc3-8eb3-440d-adc1-3e9fb3abf311",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default 0",
+              "remarks": "refer to DISCOUNT (l_discount := 0;)",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "IS_SUBLIMIT": {
+          "name": "IS_SUBLIMIT",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "14b412d1-8b69-4a9b-b50c-6b2e57042fd3",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "refer to IS_SUBLIMIT (l_is_sublimit := '')",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "NOTES_TXT": {
+          "name": "NOTES_TXT",
+          "dataType": "Varchar(300)",
+          "description": "Notes",
+          "mappings": [
+            {
+              "id": "95c6f65d-0e3a-42c5-9070-4a8aa67aa067",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_4",
+              "logic": "ISNULL(cfuf.FIELD_VAL_4, '')",
+              "remarks": "refer to INFO_AVAILABLE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "REVIEW_TERMS": {
+          "name": "REVIEW_TERMS",
+          "dataType": "Varchar(100)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "05c967fa-272a-4560-ae39-efce1af9c7cf",
+              "sourceTable": "",
+              "sourceField": "",
+              "logic": "Set to default ''",
+              "remarks": "FTP purposes",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": []
+        },
+        "CREDIT_NATURE": {
+          "name": "CREDIT_NATURE",
+          "dataType": "Varchar(100)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "fde235b4-799c-412f-bc27-0841af4c2959",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_9",
+              "logic": "ISNULL(cfuf.FIELD_VAL_9, '')",
+              "remarks": "refer to SIFAT_KREDIT",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "FAC_CONDITION": {
+          "name": "FAC_CONDITION",
+          "dataType": "Varchar(100)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "3e0db106-9ea1-4741-b51b-ff7339773ed9",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_27",
+              "logic": "ISNULL(cfuf.FIELD_VAL_27, '')",
+              "remarks": "refer to KONDISI",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "COLLECTABILITY": {
+          "name": "COLLECTABILITY",
+          "dataType": "Varchar(150)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "500e394e-5ad5-4a5f-bc06-781b6863a541",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_2",
+              "logic": "ISNULL(udf_cif.FIELD_VAL_2, '')",
+              "remarks": "refer to COLLECTABILITY",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "DIFN": {
+          "name": "DIFN",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "f046509e-cec8-4c5f-af98-85ce42f39d56",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_17",
+              "logic": "ISNULL(udf_cif.FIELD_VAL_17, '')",
+              "remarks": "refer to DIFN",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "NIP_RM": {
+          "name": "NIP_RM",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "caf5cd28-58d9-496c-95be-0fdb2c8d7488",
+              "sourceTable": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+              "sourceField": "COMP_MIS_1",
+              "logic": "ISNULL(mcd.COMP_MIS_1, '')",
+              "remarks": "refer to NIP_RM",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_MITM_CUSTOMER_DEFAULT"
+          ]
+        },
+        "RC_CODE": {
+          "name": "RC_CODE",
+          "dataType": "Varchar(10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "3d8054ff-c310-40c1-9be8-5985ce102dab",
+              "sourceTable": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+              "sourceField": "COMP_MIS_2",
+              "logic": "ISNULL(mcd.COMP_MIS_2, '')",
+              "remarks": "refer to RC_CODE",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_MITM_CUSTOMER_DEFAULT"
+          ]
+        },
+        "GRADE_CHANGE_DT": {
+          "name": "GRADE_CHANGE_DT",
+          "dataType": "Date",
+          "description": "Account grade change date",
+          "mappings": [
+            {
+              "id": "204d0eec-259c-4cc0-8ecb-e51306fd273f",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_28",
+              "logic": "ISNULL(cfuf.FIELD_VAL_28, '')",
+              "remarks": "refer to TGL_KONDISI. Already available in IM_ACCT_GRADE (old).",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "ORI_OVERDUE_INT_AMT": {
+          "name": "ORI_OVERDUE_INT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Overdue interest amount in original currency",
+          "mappings": [
+            {
+              "id": "ab9b9e0c-d70e-4b99-9392-76d3585f7e33",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "FIELD_VAL_24",
+              "logic": "ISNULL(cfuf.FIELD_VAL_24, '')",
+              "remarks": "refer to TUNGG_BUNGA_INTRA. . Already available in IM_ACCT_GRADE (old).",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "LCY_OVERDUE_INT_AMT": {
+          "name": "LCY_OVERDUE_INT_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "Overdue interest amount in local currency",
+          "mappings": [
+            {
+              "id": "1b4c46b0-2d32-4b9d-b8c1-14b6703f3d5f",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "udf_value_24",
+              "logic": "CASE gfac.LINE_CURRENCY\n    WHEN 'USD' THEN cfuf.FIELD_VAL_24 * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN cfuf.FIELD_VAL_24 * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN cfuf.FIELD_VAL_24 * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN cfuf.FIELD_VAL_24 * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN cfuf.FIELD_VAL_24 * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN cfuf.FIELD_VAL_24 * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN cfuf.FIELD_VAL_24 * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE 0\nEND",
+              "remarks": "refer to TUNGG_BUNGA_INTRA * mid_rate. . Already available in IM_ACCT_GRADE (old).",
+              "gap": "",
+              "joinGroup": null
+            },
+            {
+              "id": "02919ad7-0ace-4996-9253-4f168882ea1c",
+              "sourceTable": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+              "sourceField": "mid_rate",
+              "logic": "CASE gfac.LINE_CURRENCY\n    WHEN 'USD' THEN cfuf.FIELD_VAL_24 * ROUND(rate_usd.mid_rate, 2, 1)\n    WHEN 'SGD' THEN cfuf.FIELD_VAL_24 * ROUND(rate_sgd.mid_rate, 2, 1)\n    WHEN 'MYR' THEN cfuf.FIELD_VAL_24 * ROUND(rate_myr.mid_rate, 2, 1)\n    WHEN 'JPY' THEN cfuf.FIELD_VAL_24 * ROUND(rate_jpy.mid_rate, 2, 1)\n    WHEN 'EUR' THEN cfuf.FIELD_VAL_24 * ROUND(rate_eur.mid_rate, 2, 1)\n    WHEN 'CNY' THEN cfuf.FIELD_VAL_24 * ROUND(rate_cny.mid_rate, 2, 1)\n    WHEN 'CHF' THEN cfuf.FIELD_VAL_24 * ROUND(rate_chf.mid_rate, 2, 1)\n    ELSE 0\nEND",
+              "remarks": "refer to TUNGG_BUNGA_INTRA * mid_rate. . Already available in IM_ACCT_GRADE (old).",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS"
+          ]
+        },
+        "IS_CHILD": {
+          "name": "IS_CHILD",
+          "dataType": "CHAR(1)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "9b0784c4-2d02-46f6-9aa5-2070ebf2216e",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "MAIN_LINE_ID",
+              "logic": "CASE\n      WHEN gfac.MAIN_LINE_ID IS NULL THEN 'N' ELSE 'Y' END\nEND",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "PARENT_LINE_CODE": {
+          "name": "PARENT_LINE_CODE",
+          "dataType": "Varchar(20)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "6aef67c5-7d0f-483f-bb70-38e9329edac2",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "MAIN_LINE_ID",
+              "logic": "CASE\n      WHEN gfac.MAIN_LINE_ID IS NULL THEN NULL ELSE g2.line_code + CAST(g2.line_serial AS VARCHAR) END",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            },
+            {
+              "id": "e1ded926-8231-487e-9593-be1ba169881b",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_CODE",
+              "logic": "CASE\n      WHEN gfac.MAIN_LINE_ID IS NULL THEN NULL ELSE g2.line_code + CAST(g2.line_serial AS VARCHAR) END",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            },
+            {
+              "id": "de9b24f5-2118-479d-8d61-acb48ccb483d",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "LINE_SERIAL",
+              "logic": "CASE\n      WHEN gfac.MAIN_LINE_ID IS NULL THEN NULL ELSE g2.line_code + CAST(g2.line_serial AS VARCHAR) END",
+              "remarks": "",
+              "gap": "",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "DESCRIPTION": {
+          "name": "DESCRIPTION",
+          "dataType": "Varchar(2000)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "b3a9b7b8-b8fd-4186-8c4a-df3777c52ee7",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "DESCRIPTION",
+              "logic": "ISNULL(gfac.DESCRIPTION, '')",
+              "remarks": "",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "BLOCK_AMT": {
+          "name": "BLOCK_AMT",
+          "dataType": "Numeric(30,10)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "7cc1b8f8-d5db-4ffe-80b3-869b091e47d3",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "BLOCK_AMOUNT",
+              "logic": "ISNULL(gfac.BLOCK_AMOUNT, 0)",
+              "remarks": "",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "AVAIL_FLG": {
+          "name": "AVAIL_FLG",
+          "dataType": "Varchar(4)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "c5713ca2-417a-4e3d-b00b-2a5ae114e130",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "AVAILABILITY_FLAG",
+              "logic": "ISNULL(gfac.AVAILABILITY_FLAG, '')",
+              "remarks": "",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        },
+        "INTERNAL_REMARKS": {
+          "name": "INTERNAL_REMARKS",
+          "dataType": "Varchar(4000)",
+          "description": "",
+          "mappings": [
+            {
+              "id": "82fe0f19-4683-4df5-ab12-1f871889f80e",
+              "sourceTable": "STG_UBS_GETM_FACILITY",
+              "sourceField": "INTERNAL_REMARKS",
+              "logic": "ISNULL(gfac.INTERNAL_REMARKS, '')",
+              "remarks": "",
+              "gap": "Y",
+              "joinGroup": null
+            }
+          ],
+          "sourceSummary": [
+            "STG_UBS_GETM_FACILITY"
+          ]
+        }
+      }
+    }
+  ],
+  "tables": [
+    {
+      "name": "STG_UBS_GETM_FACILITY",
+      "classification": "source",
+      "alias": "gfac",
+      "joinType": "-",
+      "joinCondition": "STG_UBS_GETM_FACILITY",
+      "fields": {
+        "LINE_CODE": {
+          "name": "LINE_CODE",
+          "dataType": "",
+          "description": ""
+        },
+        "LINE_SERIAL": {
+          "name": "LINE_SERIAL",
+          "dataType": "",
+          "description": ""
+        },
+        "UDF_VALUE_1": {
+          "name": "UDF_VALUE_1",
+          "dataType": "",
+          "description": ""
+        },
+        "BRN": {
+          "name": "BRN",
+          "dataType": "",
+          "description": ""
+        },
+        "LINE_CURRENCY": {
+          "name": "LINE_CURRENCY",
+          "dataType": "",
+          "description": ""
+        },
+        "FACILITY_TYPE": {
+          "name": "FACILITY_TYPE",
+          "dataType": "",
+          "description": ""
+        },
+        "UDF_VALUE_2": {
+          "name": "UDF_VALUE_2",
+          "dataType": "",
+          "description": ""
+        },
+        "LINE_EXPIRY_DATE": {
+          "name": "LINE_EXPIRY_DATE",
+          "dataType": "",
+          "description": ""
+        },
+        "LINE_START_DATE": {
+          "name": "LINE_START_DATE",
+          "dataType": "",
+          "description": ""
+        },
+        "LAST_REVAL_DATE": {
+          "name": "LAST_REVAL_DATE",
+          "dataType": "",
+          "description": ""
+        },
+        "UDF_VALUE_5": {
+          "name": "UDF_VALUE_5",
+          "dataType": "",
+          "description": ""
+        },
+        "RECORD_STAT": {
+          "name": "RECORD_STAT",
+          "dataType": "",
+          "description": ""
+        },
+        "LIMIT_AMOUNT": {
+          "name": "LIMIT_AMOUNT",
+          "dataType": "",
+          "description": ""
+        },
+        "BRANCH_CODE": {
+          "name": "BRANCH_CODE",
+          "dataType": "",
+          "description": ""
+        },
+        "UDF_VALUE_3": {
+          "name": "UDF_VALUE_3",
+          "dataType": "",
+          "description": ""
+        },
+        "UDF_VALUE_4": {
+          "name": "UDF_VALUE_4",
+          "dataType": "",
+          "description": ""
+        },
+        "UTILISATION": {
+          "name": "UTILISATION",
+          "dataType": "",
+          "description": ""
+        },
+        "REVOLVING_LINE": {
+          "name": "REVOLVING_LINE",
+          "dataType": "",
+          "description": ""
+        },
+        "MAIN_LINE_ID": {
+          "name": "MAIN_LINE_ID",
+          "dataType": "",
+          "description": ""
+        },
+        "ID": {
+          "name": "ID",
+          "dataType": "",
+          "description": ""
+        },
+        "DESCRIPTION": {
+          "name": "DESCRIPTION",
+          "dataType": "",
+          "description": ""
+        },
+        "BLOCK_AMOUNT": {
+          "name": "BLOCK_AMOUNT",
+          "dataType": "",
+          "description": ""
+        },
+        "AVAILABILITY_FLAG": {
+          "name": "AVAILABILITY_FLAG",
+          "dataType": "",
+          "description": ""
+        },
+        "INTERNAL_REMARKS": {
+          "name": "INTERNAL_REMARKS",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_GETM_LIAB",
+      "classification": "source",
+      "alias": "liab",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_GETM_LIAB",
+      "fields": {
+        "LIAB_NO": {
+          "name": "LIAB_NO",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_STTM_CUSTOMER",
+      "classification": "source",
+      "alias": "scus",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(SELECT C.*, E.FIELD_VAL_2, E.FIELD_VAL_17\r\n    FROM STG_UBS_STTM_CUSTOMER C\r\n    LEFT JOIN STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS E\r\n        ON E.REC_KEY = C.CUSTOMER_NO + '~'\r\n       AND E.FUNCTION_ID = 'STDCIF'\r\n)",
+      "fields": {
+        "CUSTOMER_NO": {
+          "name": "CUSTOMER_NO",
+          "dataType": "",
+          "description": ""
+        },
+        "REVISION_DATE": {
+          "name": "REVISION_DATE",
+          "dataType": "",
+          "description": ""
+        },
+        "GROUP_ID": {
+          "name": "GROUP_ID",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS",
+      "classification": "source",
+      "alias": "scus",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(SELECT C.*, E.FIELD_VAL_2, E.FIELD_VAL_17\r\n    FROM STG_UBS_STTM_CUSTOMER C\r\n    LEFT JOIN STG_UBS_CSTM_FUNCTION_USERDEF_FIELDS E\r\n        ON E.REC_KEY = C.CUSTOMER_NO + '~'\r\n       AND E.FUNCTION_ID = 'STDCIF'\r\n)",
+      "fields": {
+        "FIELD_VAL_7": {
+          "name": "FIELD_VAL_7",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_44": {
+          "name": "FIELD_VAL_44",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_15": {
+          "name": "FIELD_VAL_15",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_37": {
+          "name": "FIELD_VAL_37",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_8": {
+          "name": "FIELD_VAL_8",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_50": {
+          "name": "FIELD_VAL_50",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_22": {
+          "name": "FIELD_VAL_22",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_49": {
+          "name": "FIELD_VAL_49",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_16": {
+          "name": "FIELD_VAL_16",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_5": {
+          "name": "FIELD_VAL_5",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_17": {
+          "name": "FIELD_VAL_17",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_39": {
+          "name": "FIELD_VAL_39",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_43": {
+          "name": "FIELD_VAL_43",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_38": {
+          "name": "FIELD_VAL_38",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_33": {
+          "name": "FIELD_VAL_33",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_41": {
+          "name": "FIELD_VAL_41",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_25": {
+          "name": "FIELD_VAL_25",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_1": {
+          "name": "FIELD_VAL_1",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_2": {
+          "name": "FIELD_VAL_2",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_42": {
+          "name": "FIELD_VAL_42",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_47": {
+          "name": "FIELD_VAL_47",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_40": {
+          "name": "FIELD_VAL_40",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_45": {
+          "name": "FIELD_VAL_45",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_46": {
+          "name": "FIELD_VAL_46",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_48": {
+          "name": "FIELD_VAL_48",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_10": {
+          "name": "FIELD_VAL_10",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_20": {
+          "name": "FIELD_VAL_20",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_19": {
+          "name": "FIELD_VAL_19",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_11": {
+          "name": "FIELD_VAL_11",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_13": {
+          "name": "FIELD_VAL_13",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_12": {
+          "name": "FIELD_VAL_12",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_32": {
+          "name": "FIELD_VAL_32",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_34": {
+          "name": "FIELD_VAL_34",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_30": {
+          "name": "FIELD_VAL_30",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_23": {
+          "name": "FIELD_VAL_23",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_26": {
+          "name": "FIELD_VAL_26",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_35": {
+          "name": "FIELD_VAL_35",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_14": {
+          "name": "FIELD_VAL_14",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_18": {
+          "name": "FIELD_VAL_18",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_29": {
+          "name": "FIELD_VAL_29",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_21": {
+          "name": "FIELD_VAL_21",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_3": {
+          "name": "FIELD_VAL_3",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_6": {
+          "name": "FIELD_VAL_6",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_36": {
+          "name": "FIELD_VAL_36",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_31": {
+          "name": "FIELD_VAL_31",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_4": {
+          "name": "FIELD_VAL_4",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_9": {
+          "name": "FIELD_VAL_9",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_27": {
+          "name": "FIELD_VAL_27",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_28": {
+          "name": "FIELD_VAL_28",
+          "dataType": "",
+          "description": ""
+        },
+        "FIELD_VAL_24": {
+          "name": "FIELD_VAL_24",
+          "dataType": "",
+          "description": ""
+        },
+        "udf_value_24": {
+          "name": "udf_value_24",
+          "dataType": "",
+          "description": ""
+        },
+        "mid_rate": {
+          "name": "mid_rate",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_STTM_CUST_GROUP",
+      "classification": "source",
+      "alias": "cg",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_STTM_CUST_GROUP",
+      "fields": {}
+    },
+    {
+      "name": "STG_UBS_STTM_DATES",
+      "classification": "source",
+      "alias": "dates",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(SELECT TODAY FROM STG_UBS_STTM_DATES WHERE BRANCH_CODE = '000')",
+      "fields": {
+        "TODAY": {
+          "name": "TODAY",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+      "classification": "source",
+      "alias": "mcd",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_MITM_CUSTOMER_DEFAULT",
+      "fields": {
+        "COMP_MIS_6": {
+          "name": "COMP_MIS_6",
+          "dataType": "",
+          "description": ""
+        },
+        "COMP_MIS_8": {
+          "name": "COMP_MIS_8",
+          "dataType": "",
+          "description": ""
+        },
+        "COMP_MIS_1": {
+          "name": "COMP_MIS_1",
+          "dataType": "",
+          "description": ""
+        },
+        "COMP_MIS_2": {
+          "name": "COMP_MIS_2",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_CYTB_RATES_HISTORY",
+      "classification": "source",
+      "alias": "rate_usd",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "(\r\nSELECT BUSINESS_DATE, MID_RATE \r\nFROM (\r\n          SELECT TOP 1 BUSINESS_DATE, MID_RATE, RATE_DT_STAMP \r\n          FROM STG_UBS_CYTB_RATES_HISTORY\r\n          WHERE CCY1 = 'USD' ORDER BY RATE_DT_STAMP DESC\r\n            ) \r\n)",
+      "fields": {
+        "LINE_CURRENCY": {
+          "name": "LINE_CURRENCY",
+          "dataType": "",
+          "description": ""
+        },
+        "MID_RATE": {
+          "name": "MID_RATE",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_GETB_POOL_LINK",
+      "classification": "source",
+      "alias": "pool",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "STG_UBS_GETB_POOL_LINK",
+      "fields": {
+        "POOL_ID": {
+          "name": "POOL_ID",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "SUBQUERY LIMIT",
+      "classification": "source",
+      "alias": "G",
+      "joinType": "LEFT JOIN",
+      "joinCondition": "",
+      "fields": {}
+    },
+    {
+      "name": "STG_UBS_MITMS_CUSTOMER_DEFAULT",
+      "classification": "source",
+      "fields": {
+        "COMP_MIS_8": {
+          "name": "COMP_MIS_8",
+          "dataType": "",
+          "description": ""
+        },
+        "COMP_MIS_7": {
+          "name": "COMP_MIS_7",
+          "dataType": "",
+          "description": ""
+        },
+        "COMP_MIS_9": {
+          "name": "COMP_MIS_9",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "SUB1",
+      "classification": "source",
+      "fields": {
+        "MID_RATE": {
+          "name": "MID_RATE",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_CYTM_RATES",
+      "classification": "source",
+      "fields": {
+        "MID_RATE": {
+          "name": "MID_RATE",
+          "dataType": "",
+          "description": ""
+        },
+        "LINE_CURRENCY": {
+          "name": "LINE_CURRENCY",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    },
+    {
+      "name": "STG_UBS_CYTBS_RATES_HISTORY",
+      "classification": "source",
+      "fields": {
+        "MID_RATE": {
+          "name": "MID_RATE",
+          "dataType": "",
+          "description": ""
+        },
+        "UDF_VALUE_3": {
+          "name": "UDF_VALUE_3",
+          "dataType": "",
+          "description": ""
+        },
+        "UDF_VALUE_4": {
+          "name": "UDF_VALUE_4",
+          "dataType": "",
+          "description": ""
+        },
+        "LINE_CURRENCY": {
+          "name": "LINE_CURRENCY",
+          "dataType": "",
+          "description": ""
+        },
+        "LIMIT_AMOUNT": {
+          "name": "LIMIT_AMOUNT",
+          "dataType": "",
+          "description": ""
+        },
+        "UTILISATION": {
+          "name": "UTILISATION",
+          "dataType": "",
+          "description": ""
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Mapping & Lineage Explorer</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Data Mapping & Lineage Explorer</h1>
+      <p class="subtitle">Search, visualize, and trace data dependencies</p>
+    </header>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="upload">Upload</button>
+      <button class="tab-btn" data-tab="search">Search</button>
+      <button class="tab-btn" data-tab="datasets">Datasets</button>
+      <button class="tab-btn" data-tab="lineage">Data Flow Lineage</button>
+    </nav>
+
+    <main>
+      <section id="upload-tab" class="tab-content active">
+        <div class="upload-container">
+          <h2>Upload Data Mapping</h2>
+          <p>Upload Excel file with mapping columns: Destination Table, Destination Field, Source Table, Source Field, Logic, Remarks</p>
+          
+          <div class="upload-box" id="uploadBox">
+            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" hidden>
+            <div class="upload-icon">📄</div>
+            <p>Drag & drop file here or <span class="browse-link">browse</span></p>
+            <p class="upload-hint">Supports .xlsx, .xls, .csv</p>
+          </div>
+          
+          <div id="uploadProgress" class="progress-container hidden">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="uploadStatus">Uploading...</p>
+          </div>
+          
+          <div id="uploadResult" class="result-container hidden">
+            <div class="success-message">
+              <span class="success-icon">✓</span>
+              <span id="resultMessage"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="search-tab" class="tab-content">
+        <div class="search-container">
+          <h2>Search Mappings</h2>
+          
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search by table or field name...">
+            <select id="searchDataset">
+              <option value="">All Datasets</option>
+            </select>
+            <button id="searchBtn" class="btn-primary">Search</button>
+          </div>
+
+          <div class="search-filters">
+            <label>
+              <input type="radio" name="searchType" value="all" checked> All
+            </label>
+            <label>
+              <input type="radio" name="searchType" value="destination"> Destination
+            </label>
+            <label>
+              <input type="radio" name="searchType" value="source"> Source
+            </label>
+          </div>
+
+          <div id="searchResults" class="results-container">
+            <p class="placeholder-text">Enter a search term to find mappings</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="datasets-tab" class="tab-content">
+        <div class="datasets-container">
+          <h2>Available Datasets</h2>
+          <div id="datasetsList" class="datasets-list">
+            <p class="placeholder-text">No datasets uploaded yet</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="flowlineage-tab" class="tab-content">
+        <div class="flowlineage-container">
+          <div class="flowlineage-header">
+            <h2>Data Flow Lineage: STG → AIM → DM</h2>
+            <div class="flowlineage-actions">
+              <button id="refreshFlow" class="btn-primary">Refresh</button>
+            </div>
+          </div>
+          
+          <div class="flow-legend">
+            <div class="flow-legend-section">
+              <h4>Layers</h4>
+              <span class="legend-item"><span class="legend-color" style="background:#3498db"></span>STAGING</span>
+              <span class="legend-item"><span class="legend-color" style="background:#27ae60"></span>AIM</span>
+              <span class="legend-item"><span class="legend-color" style="background:#e74c3c"></span>DM REPORTING</span>
+            </div>
+            <div class="flow-legend-section">
+              <h4>Node Types</h4>
+              <span class="legend-item"><span class="legend-shape legend-rect"></span>Table</span>
+              <span class="legend-item"><span class="legend-shape legend-rounded"></span>Field</span>
+            </div>
+          </div>
+
+          <div class="flowlineage-content">
+            <div id="flowLineageGraph" class="flow-graph-container"></div>
+            
+            <div id="flowLineageDetails" class="flow-details-panel">
+              <h3>Field Details</h3>
+              <div id="flowFieldInfo"></div>
+              
+              <h4>Transformation Logic</h4>
+              <div id="flowLogicInfo"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lineage-tab" class="tab-content">
+        <div class="lineage-container">
+          <div class="lineage-header">
+            <h2 id="lineageTitle">Data Lineage</h2>
+            <div class="lineage-actions">
+              <button id="exportJson" class="btn-secondary">Export JSON</button>
+              <button id="exportCsv" class="btn-secondary">Export CSV</button>
+              <button id="backToSearch" class="btn-secondary">Back to Search</button>
+            </div>
+          </div>
+          
+          <div id="dataFlowSummary" class="data-flow-summary">
+            <h3>Data Flow Summary</h3>
+            <div id="flowContent"></div>
+          </div>
+
+          <div class="lineage-content">
+            <div id="lineageGraph" class="graph-container"></div>
+            
+            <div id="lineageDetails" class="details-panel">
+              <h3>Field Details</h3>
+              <div id="fieldInfo"></div>
+              
+              <h4>Transformation Logic</h4>
+              <div id="logicInfo"></div>
+              
+              <h4>Join Information</h4>
+              <div id="joinInfo"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
